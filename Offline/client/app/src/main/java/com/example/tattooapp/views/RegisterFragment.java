@@ -25,9 +25,9 @@ public class RegisterFragment extends Fragment {
   private Button btnToLogin;
   private Button btnRegister;
 
-  private TextInputEditText email;
-  private TextInputEditText password;
-  private TextInputEditText name;
+  private TextInputLayout email;
+  private TextInputLayout password;
+  private TextInputLayout name;
 
   private View view;
 
