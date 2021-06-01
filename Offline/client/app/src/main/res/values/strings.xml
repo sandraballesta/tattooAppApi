@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">TattooApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">Login</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_user_id">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_sign_up">Register</string>
+    <string name="action_sign_in_short">Login</string>
+    <string name="error_invalid_user_id">Invalid Credentials</string>
+    <string name="error_incorrect_password">Incorrect Password</string>
+    <string name="error_field_required">Required</string>
+    <string name="error_server">Error in server</string>
+    <string name="error_incorrect_user_id">There is no user with this email, please register</string>
+    <string name="error_network">Error network</string>
+    <string name="error_invalid_password">Invalid Password</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
