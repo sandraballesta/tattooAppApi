@@ -1,45 +1,36 @@
-package com.example.tattooapp.controllers;
+package com.example.tattooapp.controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.tattooapp.DI.RetrofitProvider;
+import androidx.fragment.app.Fragment;
+
 import com.example.tattooapp.api.TattooApi;
 import com.example.tattooapp.models.RegisterResponse;
+import com.example.tattooapp.provider.RetrofitProvider;
 import com.example.tattooapp.views.RegisterFragment;
-import java.io.IOException;
 
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-
 
 
 public class RegisterController {
 
-    private RegisterFragment fragment;
-    private SharedPreferences sharedPreferences;
-    private Retrofit retrofit;
+    private final Fragment fragment;
+    private final SharedPreferences sharedPreferences;
+    private final TattooApi apiService;
 
     // constructor to initialize the var
-    public RegisterController(RegisterFragment fragment){
+    public RegisterController(Fragment fragment) {
         this.fragment = fragment;
-        //sharedPreferences = fragment.getActivity().getPreferences(Context.MODE_PRIVATE);
-        //String tmp = getValueFromSharedPreferences("access_token");
-        retrofit = RetrofitProvider.getInstance();
-    }
-    public String getValueFromSharedPreferences(String key) {
-        return sharedPreferences.getString(key, "Didn't get value");
+        apiService = RetrofitProvider.getInstance(fragment).create(TattooApi.class);
+        sharedPreferences = fragment.getActivity().getPreferences(Context.MODE_PRIVATE);
     }
 
-    public void registerUser(String name, String email, String password)throws IOException {
-        TattooApi apiService = retrofit.create(TattooApi.class);
+    public void registerUser(String name, String email, String password) {
 
         Log.i("SAN", "entra dintre");
 
@@ -51,7 +42,8 @@ public class RegisterController {
                 Log.i("SAN", "entra dintre2");
                 if (response.isSuccessful()) {
                     Toast.makeText(fragment.getActivity(), "Upload!", Toast.LENGTH_SHORT)
-                            .show();
+                        .show();
+                    saveToken(response);
                 } else {
                     Log.i("SAN", response.message());
                 }
@@ -60,20 +52,14 @@ public class RegisterController {
             @Override
             public void onFailure(Call<RegisterResponse> call, Throwable t) {
                 Toast.makeText(fragment.getActivity(), "An unknown error has occured.", Toast.LENGTH_SHORT)
-                        .show();
+                    .show();
                 Log.i("SAN", t.getMessage());
                 Log.i("SAN", "on failure");
             }
         });
     }
 
-
-    private RequestBody createUser(String name, String email, String password) throws IOException {
-        RequestBody res = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("name", name)
-                .addFormDataPart("email", email)
-                .addFormDataPart("password", password)
-                .build();
-        return (res);
+    private void saveToken(Response<RegisterResponse> response) {
+        sharedPreferences.edit().putString("token", response.body().getToken()).apply();
     }
 }

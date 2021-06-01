@@ -1,22 +1,17 @@
 package com.example.tattooapp.views;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.tattooapp.R;
-import com.example.tattooapp.controllers.RegisterController;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
-import java.io.IOException;
+import com.example.tattooapp.R;
+import com.example.tattooapp.controller.RegisterController;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class RegisterFragment extends Fragment {
 
@@ -41,24 +36,16 @@ public class RegisterFragment extends Fragment {
 
     setLayout();
 
-    btnToLogin.setOnClickListener(v -> {
-      Navigation.findNavController(view).navigate(R.id.toLogin);
-    });
+    btnToLogin.setOnClickListener(v ->
+        Navigation.findNavController(view).navigate(R.id.toLogin)
+    );
 
-    btnRegister.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        try {
-          String emailValue = email.getEditText().getText().toString().trim();
-          String passwordValue = password.getEditText().getText().toString().trim();
-          String nameValue = name.getEditText().getText().toString().trim();
+    btnRegister.setOnClickListener(v -> {
+      String emailValue = email.getEditText().getText().toString().trim();
+      String passwordValue = password.getEditText().getText().toString().trim();
+      String nameValue = name.getEditText().getText().toString().trim();
 
-          controller.registerUser(nameValue, emailValue, passwordValue);
-        } catch (IOException e) {
-          Log.i("TRYING TO REGISTER", "whats up");
-          e.printStackTrace();
-        }
-      }
+      controller.registerUser(nameValue, emailValue, passwordValue);
     });
 
     return this.view;
@@ -67,6 +54,7 @@ public class RegisterFragment extends Fragment {
   private void setLayout() {
     btnToLogin = view.findViewById(R.id.btnToLogin);
     btnRegister = view.findViewById(R.id.btnRegister);
+
     email = view.findViewById(R.id.email);
     password = view.findViewById(R.id.password);
     name = view.findViewById(R.id.name);
